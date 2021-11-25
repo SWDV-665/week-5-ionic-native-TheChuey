@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class GroceryListService {
 
   ///////// DATA ////////////
-  public name: any = 'Project version Gro2Backup';
+  public name: any = 'Project version Grocery ';
   public inputValue: any;
   public editValue: any;
   public items = [];  // Array for *ngFor looping Array generate ionTags

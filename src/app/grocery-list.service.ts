@@ -10,6 +10,8 @@ export class GroceryListService {
   public inputValue: any;
   public editValue: any;
   public items = [];  // Array for *ngFor looping Array generate ionTags
+  public id: any;
+  public food = {};
   /////////////  DataService //////////////////////////////////////
 
 
@@ -25,6 +27,20 @@ export class GroceryListService {
   }
 
   add(inputValue){
+    console.log(inputValue);
+
     return this.items.push(inputValue);
   }
 }
+
+
+// const convertArrayToObject = (array) => {
+//   let fruit = "fruit";
+//   const food = new Object();
+
+//   this.id = array.forEach(food);
+//   console.log(this.id);
+
+// };
+
+// convertArrayToObject(this.items);

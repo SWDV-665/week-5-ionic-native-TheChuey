@@ -1,43 +1,48 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
-import { GroceryListService } from '../grocery-list.service';
-
+import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Activity } from '../types';
 
 @Injectable({
   providedIn: 'root'
 })
+
+
+
 export class MessagesService {
-  constructor(private http: HttpClient, private dataService: GroceryListService) {
-  }
-  getMessages(): Observable<Object> {
-    return this.http.get('http://localhost:8080/api/groceries');
-  }
-
-  getMessage(id: string): Observable<Object> {
-    return this.http.get(`http://localhost:8080/api/groceries${id}`);
-  }
+  constructor(private http: HttpClient) {}
 
 
-  onMessage(postData: any) {
-    this.http.post('http://localhost:8080/api/groceries', postData)  //http://localhost:8080/api/groceries
-    .subscribe(data => {  // We subscribe to this observable, which allows us to grab the response from the request.
-    console.log(data);
-    }, error => {
-    console.log(error);
+  // getActivity
+  onMessage(): Observable <Activity> {
+    return this.http.get<Activity>('http://localhost:8080/api/groceries');
+
+  }
+  // getallactivites
+  getMessages(){
+    this.http.get('http://localhost:8080/api/groceries').subscribe((res) => {
+      const keys = Object.entries(res);
+
+        for (const key of keys) {
+          const b = [...key];
+          const bob = key[1];
+          const id = bob._id;
+          const nameId = id.name;
+          console.log('id',id, 'item Name',nameId, b[1]);
+        }
+
+
     });
-  }
-                ///api/groceries/:id
-  deleteProductById(productId: number) {
-    console.log('delte items');
-    const url: string = 'http://localhost:8080/api/groceries/:' + productId;
-    this.http.delete(url).subscribe(data => {  // We subscribe to this observable, which allows us to grab the response from the request.
-      console.log(data);
-      }, error => {
-      console.log(error);
-      });
 
-    console.log(url);
-    return this.http.delete(url);
+  }
+
+  // post
+    postMessage(message): Observable <Activity> {
+      console.log('postmessage test');
+      return this.http.post<Activity>('http://localhost:8080/api/groceries', {
+        id: '1',
+        name: message
+      });
   }
 }
+

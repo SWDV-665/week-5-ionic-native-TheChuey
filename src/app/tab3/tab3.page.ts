@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController} from '@ionic/angular'; // , IonLabel, NavController
+import { AlertController, Platform} from '@ionic/angular'; // , IonLabel, NavController
 import { GroceryListService } from '../grocery-list.service'; // found  with the app dot files
 import {MessagesService} from 'src/app/api/user.service';
 
@@ -13,55 +13,28 @@ export class Tab3Page {
   constructor(
     public dataService: GroceryListService,
     private alertController: AlertController,
-    private messages: MessagesService
+    private messages: MessagesService,
+    private platform: Platform
 
     ) {}
 
     // save
     save(){
      console.log('test save', this.dataService.items);
-
-     this.messages.onMessage(this.dataService.items);
-
-
-
-     //this.dataService.items.forEach(function(value){ {} = value; console.log(value);});
-
-
+     this.messages.postMessage(this.dataService.items);
     }
 
     //// Share
-    share(){
-      console.log("share test");
-      this.messages.getMessages().subscribe((res) => {
-        const keys = Object.entries(res);
-        for (const key of keys) {
-          let b = [...key];
-          const bob = key[1];
-          const id = bob['_id'];
-          const nameId = id['name'];
-          console.log('id',id, 'item Name',nameId, b[1]);
-        }
-      });
+    async share(){
+      console.log('share test');
+      this.messages.getMessages();
 
     }
 
+
    /// Delete
    delItem(groceryItem){
-
     this.dataService.addRemove(groceryItem);
-
-      this.messages.getMessages().subscribe((res) => {
-        const keys = Object.entries(res);
-        for (const key of keys) {
-          //let b = [...key];
-          const bob = key[1];
-          const id = bob['_id'];
-          console.log('id',id);
-         this.messages.deleteProductById(id);
-      }
-    });
-
   };
 
   /// ADD
@@ -101,11 +74,3 @@ export class Tab3Page {
       }
 
 }
-function del(x: any) {
-  throw new Error('Function not implemented.');
-}
-
-function x(x: any) {
-  throw new Error('Function not implemented.');
-}
-
